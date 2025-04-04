@@ -1,8 +1,8 @@
-const database = require("../firestore");
+const database = require("../database/firestore");
 const express = require("express");
 const router = express.Router();
 
-router.route("/api/gifts/")
+router.route("/gifts/")
     .get(async (req, res) => {
         try {
             const {status, owner, amount} = req.query;
@@ -21,7 +21,7 @@ router.route("/api/gifts/")
         }
     });
 
-router.post("/api/gifts/", async (req, res) => {
+router.post("/gifts/", async (req, res) => {
     try {
         const body = req.body;
         const documentReference = await database.collection("gifts").add(body);
@@ -31,7 +31,7 @@ router.post("/api/gifts/", async (req, res) => {
     }
 });
 
-router.route("/api/gifts/:giftId")
+router.route("/gifts/:giftId")
     .get(async (req, res) => {
         try {
             const {giftId} = req.params;
