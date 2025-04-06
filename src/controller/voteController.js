@@ -21,8 +21,8 @@ async function submitVote(req, res) {
         if (!documentSnapshot.exists) {
             const blockData = {
                 brands: {
-                    supported: [],
-                    other: []
+                    [supported]: [],
+                    [other]: [],
                 },
                 status: "active",
                 createdAt: timestamp,
@@ -49,7 +49,7 @@ async function submitVote(req, res) {
         const blockData = documentSnapshot.data();
 
         // Check if the brand, with the user's vote, surpasses the threshold
-        if (documentSnapshot.data().brands[supported].length + 1 >= 5) {
+        if (documentSnapshot.data().brands[supported].length + 1 >= 3) {
             blockData.completedAt = timestamp;
             blockData.status = "completed";
             // Trigger workflows to create LAPDs
@@ -63,7 +63,8 @@ async function submitVote(req, res) {
         await documentSnapshot.ref.update(blockData);
         return res.status(200).json({id: blockId, ...blockData});
     } catch (error) {
-        throw new Error("Failed to create vote");
+        console.error("Error submitting vote: ", error);
+        return res.status(500).json({error: "Failed to submit vote"});
     }
 }
 
