@@ -1,6 +1,6 @@
 const database = require("../database/firestore");
 const express = require("express");
-const {submitVote} = require("../controller/voteController");
+const {submitVote} = require("../controller/blockController");
 const router = express.Router();
 
 router.post("/vote/submit/", async (req, res) => {
