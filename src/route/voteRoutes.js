@@ -1,14 +1,10 @@
 const database = require("../database/firestore");
 const express = require("express");
-const {submitVote} = require("../controller/blockController");
+const {submitVote} = require("../controller/vote/submitVote");
 const router = express.Router();
 
-router.post("/vote/submit/", async (req, res) => {
-    try {
-        await submitVote(req, res);
-    } catch (error) {
-        res.status(500).json({error: "Failed to submit vote", message: error.message});
-    }
+router.post("/vote/submit/", async (req, res, next) => {
+    await submitVote(req, res, next);
 });
 
 module.exports = router;
